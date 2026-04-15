@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var articleSubContainer: UIView!
@@ -17,17 +18,30 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var artileContent: UITextView!
     @IBOutlet weak var thumbImage: UIImageView!
     
-   var   article: Article
+    @IBOutlet weak var bookmarkBtn: UIButton!
+    var viewModel: ArticleDetailViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        configeData()
+        bindData()
+        updateBookmarkUI()
        
     }
-    
-    func configureData () {
-        let articleImage = article.media?.first?.mediaMetadata?.last?.url ?? nil
-        let articleImageUrl = articleImage?.mediaMetadata
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        styleUI()
     }
+    
+    private func styleUI() {
+           articleImage.layer.cornerRadius = 12
+           articleImage.clipsToBounds = true
+
+           thumbImage.layer.cornerRadius = thumbImage.frame.height / 2
+           thumbImage.clipsToBounds = true
+
+           articleSubContainer.layer.cornerRadius = 12
+           articleSubContainer.layer.borderColor = UIColor(hex: "EEEEEE").cgColor
+           articleSubContainer.layer.borderWidth = 1
+       }
     
     
     
@@ -36,20 +50,43 @@ class ArticleDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func bookmarkBtn(_ sender: Any) {
-    }
-    func configeData () {
-//        articleImage.image = viewModel.imageURL
-//        thumbImage.image = viewModel.imageURL
-        guard let viewModel = viewModel else {
-               print("❌ ViewModel is nil")
-               return
-           }
+    @IBAction func bookmarkBtn(_ sender: UIButton) {
+        let isSaved = viewModel.toggleBookmark()
 
-        articleTitle.text = viewModel.title
-        article_publisher.text = viewModel.publisher
-        article_published_date.text = viewModel.publishedDate
-        artileContent.text = viewModel.content
+                let imageName = isSaved ? "bookmark.circle.fill" : "bookmark.circle"
+                sender.setImage(UIImage(systemName: imageName), for: .normal)
+
+                showToast(message: isSaved ? "Article Saved" : "Article Removed Successfully")
+           
     }
+    
+    // MARK: - Bookmark UI
+        private func updateBookmarkUI() {
+            let isSaved = viewModel.isBookmarked()
+            let imageName = isSaved ? "bookmark.circle.fill" : "bookmark.circle"
+            bookmarkBtn.setImage(UIImage(systemName: imageName), for: .normal)
+        }
+
+    
+   
+    private func bindData() {
+           articleTitle.text = viewModel.titleText
+           article_publisher.text = viewModel.publisherText
+           article_published_date.text = viewModel.dateText
+           artileContent.text = viewModel.contentText
+
+           articleImage.kf.setImage(
+               with: viewModel.mainImageURL,
+               placeholder: UIImage(systemName: "photo"),
+               options: [.transition(.fade(0.3)), .cacheOriginalImage]
+           )
+
+           thumbImage.kf.setImage(
+               with: viewModel.thumbImageURL,
+               placeholder: UIImage(systemName: "photo"),
+               options: [.transition(.fade(0.3)), .cacheOriginalImage]
+           )
+       }
+
     
 }

@@ -64,6 +64,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let articleDetail: ArticleDetailViewController = ArticleDetailViewController.instantiate(appStoryboard: .main)
         articleDetail.viewModel = ArticleDetailViewModel(article: viewModel.article(at: indexPath.row))
+       // articleDetail.article = viewModel.article(at: indexPath.row)
         self.navigationController?.pushViewController(articleDetail,animated:true)
     }
     

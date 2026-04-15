@@ -1,44 +1,80 @@
 
 import UIKit
 
+enum ViewState {
+    case loading
+    case success
+    case empty
+    case error(String)
+}
+
 
 final class ArticleViewModel {
 
     private let repository: ArticleRepository
 
     private(set) var articles: [Article] = []
+    private(set) var filteredArticles: [Article] = []
 
-    var onUpdate: (() -> Void)?
-    var onError: ((Error) -> Void)?
+    var isSearching: Bool = false
+
+    var state: ViewState = .loading {
+        didSet {
+            DispatchQueue.main.async {
+                self.onStateChange?(self.state)
+            }
+        }
+    }
+
+    var onStateChange: ((ViewState) -> Void)?
 
     init(repository: ArticleRepository) {
         self.repository = repository
     }
 
     func loadArticles() {
+
+        state = .loading
+
         repository.fetchArticles { [weak self] result in
             guard let self else { return }
 
             switch result {
+
             case .success(let articles):
                 self.articles = articles
-                DispatchQueue.main.async {
-                    self.onUpdate?()
-                }
+                self.filteredArticles = articles
+
+                self.state = articles.isEmpty ? .empty : .success
 
             case .failure(let error):
-                DispatchQueue.main.async {
-                    self.onError?(error)
-                }
+                self.state = .error(error.localizedDescription)
             }
         }
     }
 
+    // MARK: - Search
+    func search(query: String) {
+
+        if query.isEmpty {
+            isSearching = false
+            filteredArticles = articles
+        } else {
+            isSearching = true
+            filteredArticles = articles.filter {
+                $0.title.lowercased().contains(query.lowercased()) ||
+                $0.abstract.lowercased().contains(query.lowercased())
+            }
+        }
+
+        state = (filteredArticles.count == 0) ? .empty : .success
+    }
+
     func numberOfRows() -> Int {
-        return articles.count
+        filteredArticles.count
     }
 
     func article(at index: Int) -> Article {
-        return articles[index]
+        filteredArticles[index]
     }
 }

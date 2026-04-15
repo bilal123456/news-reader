@@ -7,70 +7,90 @@
 
 import UIKit
 
+
+
 class BookmarkViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
-    var bookmarks: [BookmarkArticleModel] = []
+
+    private let viewModel = BookmarkViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadBookmarks()
+        setupTableView()
+      
     }
-    
-    
-    func updateUI() {
-        if bookmarks.isEmpty {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadData()
+    }
+
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+
+    private func loadData() {
+        viewModel.loadBookmarks()
+        updateUI()
+        tableView.reloadData()
+    }
+
+    private func updateUI() {
+        if viewModel.isEmpty() {
             tableView.setEmptyView(
                 title: "No Saved Items",
-                message: "Save articles  you want to see again.",
+                message: "Save articles you want to see again.",
                 image: UIImage(systemName: "bookmark")
             )
         } else {
             tableView.restore()
         }
-        
-        tableView.reloadData()
     }
-    func loadBookmarks() {
-        bookmarks = CoreDataManager.shared.fetchArticles()
-        tableView.reloadData()
-        updateUI()
-    }
-    
-
-    
 }
 
-extension BookmarkViewController : UITableViewDelegate, UITableViewDataSource {
+extension BookmarkViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return bookmarks.count
+        viewModel.numberOfItems
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! BookmarkTableViewCell
-        cell.configure(article: bookmarks[indexPath.row], tag: indexPath.row)
+
+        let article = viewModel.article(at: indexPath.row)
+        cell.configure(article: article, tag: indexPath.row)
+
+        cell.bookmarkBtn.tag = indexPath.row
         cell.bookmarkBtn.addTarget(self, action: #selector(handleRemoveBookmark), for: .touchUpInside)
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        120
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let articleDetail: ArticleDetailViewController = ArticleDetailViewController.instantiate(appStoryboard: .main)
-        articleDetail.viewModel = ArticleDetailViewModel(bookmark: bookmarks[indexPath.row])
-       // articleDetail.article = viewModel.article(at: indexPath.row)
-        self.navigationController?.pushViewController(articleDetail,animated:true)
+
+        let articleDetail: ArticleDetailViewController =
+            ArticleDetailViewController.instantiate(appStoryboard: .main)
+
+        let article = viewModel.article(at: indexPath.row)
+        articleDetail.viewModel = ArticleDetailViewModel(bookmark: article)
+
+        navigationController?.pushViewController(articleDetail, animated: true)
     }
-    
-    @objc func handleRemoveBookmark(sender : UIButton) {
-        CoreDataManager.shared.deleteArticle(id: bookmarks[sender.tag].id)
-        showToast(message:"Article Removed Successfully")
-        loadBookmarks()
-        
+
+    @objc func handleRemoveBookmark(sender: UIButton) {
+
+        viewModel.deleteBookmark(at: sender.tag)
+
+        tableView.reloadData()
+        updateUI()
+
+        showToast(message: "Article Removed Successfully")
     }
-    
-    
 }

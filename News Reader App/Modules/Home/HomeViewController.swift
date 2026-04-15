@@ -9,6 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    @IBOutlet weak var searchbar: UISearchBar!
+    @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var tableView: UITableView!
     private var viewModel: ArticleViewModel!
     
@@ -17,10 +19,14 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchbar.delegate = self
+        self.activityView.isHidden = false
         setupViewModel()
         bindViewModel()
-        viewModel.loadArticles()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+            self.viewModel.loadArticles()
+        })
+      
         tableView.showsVerticalScrollIndicator = false
     }
     
@@ -33,18 +39,36 @@ class HomeViewController: UIViewController {
     
     func bindViewModel() {
 
-            viewModel.onUpdate = { [weak self] in
-               print("Data update")
-                guard let self = self else {return}
-                self.tableView.reloadData()
-            }
+        viewModel.onStateChange = { [weak self] state in
+            guard let self else { return }
 
-            viewModel.onError = { error in
-                print("Data eror")
-                print(error.localizedDescription)
+            self.activityView.isHidden = true
+
+            switch state {
+
+            case .loading:
+                self.activityView.isHidden = false
+
+            case .success:
+                self.tableView.restore()
+                self.tableView.reloadData()
+
+            case .empty:
+                self.tableView.setEmptyView(
+                    title: "No Data",
+                    message: "No articles found.",
+                    image: UIImage(systemName: "tray")
+                )
+
+            case .error(let message):
+                self.tableView.setEmptyView(
+                    title: "Error",
+                    message: message,
+                    image: UIImage(systemName: "exclamationmark.triangle")
+                )
             }
         }
-
+    }
     
 }
 
@@ -69,5 +93,16 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(articleDetail,animated:true)
     }
     
+   
     
+    
+}
+extension HomeViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.search(query: searchText)
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }

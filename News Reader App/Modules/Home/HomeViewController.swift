@@ -20,14 +20,34 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchbar.delegate = self
-        self.activityView.isHidden = false
+        tableView.showsVerticalScrollIndicator = false
+        
         setupViewModel()
         bindViewModel()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-            self.viewModel.loadArticles()
-        })
-      
-        tableView.showsVerticalScrollIndicator = false
+        tableView.restore()
+        viewModel.loadArticles()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(networkChanged),
+            name: .connectivityStatus,
+            object: nil
+        )
+    }
+    
+    
+    @objc func networkChanged() {
+        if NetworkMonitor.shared.isConnected {
+            tableView.restore()
+            viewModel.loadArticles()
+        } else {
+            self.activityView.isHidden = true
+            tableView.setEmptyView(
+                title: "Network Error",
+                message: "Network Not working Properly",
+                image: UIImage(systemName: "wifi")
+            )
+        }
     }
     
     func setupViewModel() {

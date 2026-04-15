@@ -30,11 +30,23 @@ class CoreDataManager {
     }
     
     // MARK: - Fetch
-    func fetchArticles() -> [NSManagedObject] {
+    func fetchArticles() -> [BookmarkArticleModel] {
         let request = NSFetchRequest<NSManagedObject>(entityName: "BookmarkArticle")
         
         do {
-            return try context.fetch(request)
+            let results = try context.fetch(request)
+            
+            return results.map { obj in
+                BookmarkArticleModel(
+                    id: obj.value(forKey: "id") as? Int ?? 0,
+                    title: obj.value(forKey: "title") as? String ?? "",
+                    byline: obj.value(forKey: "byline") as? String ?? "",
+                    publishedDate: obj.value(forKey: "publishedDate") as? String ?? "",
+                    abstract: obj.value(forKey: "abstract") as? String ?? "",
+                    imageURL: obj.value(forKey: "imageURL") as? String ?? ""
+                )
+            }
+            
         } catch {
             print("Fetch error:", error)
             return []

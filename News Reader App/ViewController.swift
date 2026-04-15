@@ -16,8 +16,9 @@ class ViewController: UIViewController {
     
     func moveToNextController() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-            let homeController: HomeViewController = HomeViewController.instantiate(appStoryboard: .main)
+            let homeController: CustomViewController = CustomViewController.instantiate(appStoryboard: .main)
             self.navigationController?.pushViewController(homeController,animated:true)
+            
             
         })
         

@@ -5,44 +5,38 @@ class ArticleDetailViewModel {
 
     // MARK: - Sources
     private let article: Article?
-    private let bookmark: BookmarkArticleModel?
+   
 
     // MARK: - Init (Home)
     init(article: Article) {
         self.article = article
-        self.bookmark = nil
     }
 
-    // MARK: - Init (Bookmark)
-    init(bookmark: BookmarkArticleModel) {
-        self.article = nil
-        self.bookmark = bookmark
-    }
 
     // MARK: - Helpers (Unified Access)
 
     private var title: String {
-        article?.title ?? bookmark?.title ?? ""
+        article?.title ?? ""
     }
 
     private var byline: String {
-        article?.byline ?? bookmark?.byline ?? ""
+        article?.byline  ?? ""
     }
 
     private var publishedDate: String {
-        article?.publishedDate ?? bookmark?.publishedDate ?? ""
+        article?.publishedDate ?? ""
     }
 
     private var abstract: String {
-        article?.abstract ?? bookmark?.abstract ?? ""
+        article?.abstract ?? ""
     }
 
     private var imageURLString: String? {
-        article?.imageURL ?? bookmark?.imageURL
+        article?.imageURL
     }
 
     private var id: Int {
-        article?.id ?? Int(bookmark?.id ?? 0)
+        article?.id ?? 0
     }
 
     // MARK: - UI Bindings

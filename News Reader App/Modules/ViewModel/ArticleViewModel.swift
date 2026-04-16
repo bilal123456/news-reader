@@ -11,7 +11,7 @@ enum ViewState {
 
 final class ArticleViewModel {
 
-    private let repository: ArticleRepository
+    private let repository: ArticleRepositoryProtocol
 
     private(set) var articles: [Article] = []
     private(set) var filteredArticles: [Article] = []
@@ -29,9 +29,9 @@ final class ArticleViewModel {
 
     var onStateChange: ((ViewState) -> Void)?
 
-    init(repository: ArticleRepository) {
-        self.repository = repository
-    }
+    init(repository: ArticleRepositoryProtocol) {
+            self.repository = repository
+        }
 
     func loadArticles() {
         state = .loading

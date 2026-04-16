@@ -14,3 +14,30 @@ struct BookmarkArticleModel {
     let abstract: String
     let imageURL: String
 }
+
+extension BookmarkArticleModel {
+    func toArticle() -> Article {
+        return Article(
+            uri: "",
+            url: "",
+            id: id,
+            assetId: 0,
+            source: "",
+            publishedDate: publishedDate,
+            updated: nil,
+            section: "",
+            subsection: nil,
+            nytdsection: "",
+            type: "",
+            title: title,
+            abstract: abstract,
+            byline: byline,
+            desFacet: nil,
+            orgFacet: nil,
+            perFacet: nil,
+            geoFacet: nil,
+            media: nil
+        )
+    }
+}
+

@@ -7,6 +7,9 @@
 
 import UIKit
 
+extension Notification.Name {
+    static let bookmarkUpdated = Notification.Name("bookmarkUpdated")
+}
 
 
 class BookmarkViewController: UIViewController {
@@ -14,7 +17,7 @@ class BookmarkViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     private let viewModel = BookmarkViewModel()
-
+    weak var delegate:ArticleDetailDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +51,9 @@ class BookmarkViewController: UIViewController {
             tableView.restore()
         }
     }
+    deinit {
+            NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension BookmarkViewController: UITableViewDataSource, UITableViewDelegate {
@@ -70,7 +76,7 @@ extension BookmarkViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        120
+        130
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -78,19 +84,21 @@ extension BookmarkViewController: UITableViewDataSource, UITableViewDelegate {
         let articleDetail: ArticleDetailViewController =
             ArticleDetailViewController.instantiate(appStoryboard: .main)
 
-        let article = viewModel.article(at: indexPath.row)
-        articleDetail.viewModel = ArticleDetailViewModel(bookmark: article)
+        let article = viewModel.article(at: indexPath.row).toArticle()
+        articleDetail.viewModel = ArticleDetailViewModel(article:  article)
 
         navigationController?.pushViewController(articleDetail, animated: true)
     }
 
     @objc func handleRemoveBookmark(sender: UIButton) {
-
         viewModel.deleteBookmark(at: sender.tag)
-
         tableView.reloadData()
         updateUI()
-
+        NotificationCenter.default.post(
+                name: .bookmarkUpdated,
+                object: nil
+            )
         showToast(message: "Article Removed Successfully")
     }
 }
+

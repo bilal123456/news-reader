@@ -28,50 +28,21 @@ class BookmarkTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(article: BookmarkArticleModel,tag:Int) {
+    func configure(article: BookmarkArticleModel, tag: Int) {
         bookmarkBtn.tag = tag
-        containerView.layer.cornerRadius = 12
-        containerView.clipsToBounds = true
-        let url = URL(string: article.imageURL)
-        
 
-        img.kf.setImage(
-            with: url,
-            placeholder: UIImage(systemName: "photo"),
-            options: [
-                .transition(.fade(0.3)),
-                .cacheOriginalImage
-            ]
-        )
+        containerView.applyCardStyle()
+
+        img.setImage(urlString: article.imageURL)
+
         title.text = article.title
         article_publisher.text = article.byline
-  
+
+        artile_publised_date.attributedText = .calendarText(date: article.publishedDate)
+
         img.layer.cornerRadius = 12
         img.clipsToBounds = true
-        selectionStyle = .none
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "calendar")
-        
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let textString = NSAttributedString(string: " \(article.publishedDate)")
 
-        let finalString = NSMutableAttributedString()
-        finalString.append(attachmentString)
-        finalString.append(textString)
-
-        artile_publised_date.attributedText = finalString
-        img.layer.cornerRadius = 12
-        img.clipsToBounds = true
         selectionStyle = .none
-        
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.05
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        containerView.layer.shadowRadius = 8
-        containerView.layer.borderColor = UIColor(hex:"#EEEEEE").cgColor
-        containerView.layer.borderWidth = 1
-        
-        
-        
     }
 }

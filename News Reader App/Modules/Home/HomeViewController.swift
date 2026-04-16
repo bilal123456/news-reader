@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private var viewModel: ArticleViewModel!
     
     
+    
 
 
     override func viewDidLoad() {
@@ -26,11 +27,18 @@ class HomeViewController: UIViewController {
         bindViewModel()
         tableView.restore()
         viewModel.loadArticles()
+        hideKeyboardWhenTappedAround()
         
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(networkChanged),
             name: .connectivityStatus,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refreshBookmarks),
+            name: .bookmarkUpdated,
             object: nil
         )
     }
@@ -94,7 +102,9 @@ class HomeViewController: UIViewController {
             searchbar.placeholder = "Search articles..."
         }
     }
-    
+    deinit {
+            NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
@@ -115,6 +125,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let articleDetail: ArticleDetailViewController = ArticleDetailViewController.instantiate(appStoryboard: .main)
         articleDetail.viewModel = ArticleDetailViewModel(article: viewModel.article(at: indexPath.row))
+        articleDetail.delage = self
         self.navigationController?.pushViewController(articleDetail,animated:true)
     }
     
@@ -129,5 +140,15 @@ extension HomeViewController: UISearchBarDelegate {
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+}
+
+extension HomeViewController : ArticleDetailDelegate {
+    func didUpdateBookmark() {
+        tableView.reloadData()
+    }
+    
+    @objc func refreshBookmarks() {
+        tableView.reloadData()
     }
 }

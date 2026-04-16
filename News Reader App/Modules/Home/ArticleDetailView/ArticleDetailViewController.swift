@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+protocol ArticleDetailDelegate: AnyObject {
+    func didUpdateBookmark()
+}
+
 class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var articleSubContainer: UIView!
     @IBOutlet weak var articleImage: UIImageView!
@@ -17,15 +21,23 @@ class ArticleDetailViewController: UIViewController {
     @IBOutlet weak var articleTitle: UILabel!
     @IBOutlet weak var artileContent: UITextView!
     @IBOutlet weak var thumbImage: UIImageView!
+    weak var delage:ArticleDetailDelegate?
     
     @IBOutlet weak var bookmarkBtn: UIButton!
     var viewModel: ArticleDetailViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
         bindData()
-        updateBookmarkUI()
+      
        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateBookmarkUI()
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         styleUI()
@@ -53,9 +65,11 @@ class ArticleDetailViewController: UIViewController {
     @IBAction func shareBtnPressed(_ sender: Any) {
         let  urlString = viewModel.url
            
-           let title = viewModel.titleText ?? ""
+           let title = viewModel.titleText
         
-        let url = URL(string: urlString)
+        guard   let url = URL(string: urlString) else {
+            return
+        }
            
            let items: [Any] = [title, url]
            
@@ -77,6 +91,7 @@ class ArticleDetailViewController: UIViewController {
                 sender.setImage(UIImage(systemName: imageName), for: .normal)
 
                 showToast(message: isSaved ? "Article Saved" : "Article Removed Successfully")
+        self.delage?.didUpdateBookmark()
            
     }
     
@@ -85,6 +100,7 @@ class ArticleDetailViewController: UIViewController {
             let isSaved = viewModel.isBookmarked()
             let imageName = isSaved ? "bookmark.fill" : "bookmark"
             bookmarkBtn.setImage(UIImage(systemName: imageName), for: .normal)
+           
         }
 
     

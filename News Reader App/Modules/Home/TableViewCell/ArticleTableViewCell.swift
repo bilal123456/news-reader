@@ -29,46 +29,21 @@ class ArticleTableViewCell: UITableViewCell {
     }
     
     func configure(article: Article) {
-        containerView.layer.cornerRadius = 12
-        containerView.clipsToBounds = true
-        let url = URL(string: article.imageURL ?? "")
-        
+        containerView.applyCardStyle()
 
-        img.kf.setImage(
-            with: url,
-            placeholder: UIImage(systemName: "photo"),
-            options: [
-                .transition(.fade(0.3)),
-                .cacheOriginalImage
-            ]
-        )
+        img.setImage(urlString: article.imageURL)
+
         title.text = article.title
         article_publisher.text = article.byline
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "calendar")
+        artile_publised_date.attributedText = .calendarText(date: article.publishedDate ?? "")
 
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let textString = NSAttributedString(string: " \(article.publishedDate)")
-
-        let finalString = NSMutableAttributedString()
-        finalString.append(attachmentString)
-        finalString.append(textString)
-
-        artile_publised_date.attributedText = finalString
         img.layer.cornerRadius = 12
         img.clipsToBounds = true
+
         selectionStyle = .none
-        
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.05
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        containerView.layer.shadowRadius = 8
-        containerView.layer.borderColor = UIColor(hex:"#EEEEEE").cgColor
-        containerView.layer.borderWidth = 1
-        bookmarkimg.image = UIImage(systemName: CoreDataManager.shared.isBookmarked(id: article.id) ? "bookmark.fill" : "bookmark") 
-        
-        
-        
+
+        let isBookmarked = CoreDataManager.shared.isBookmarked(id: article.id)
+        bookmarkimg.image = UIImage(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
     }
 
 }

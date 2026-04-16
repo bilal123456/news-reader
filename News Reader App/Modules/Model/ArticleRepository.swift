@@ -11,7 +11,11 @@
 
 import Foundation
 
-final class ArticleRepository {
+protocol ArticleRepositoryProtocol {
+    func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void)
+}
+
+final class ArticleRepository : ArticleRepositoryProtocol {
 
     private let api: APIServiceProtocol
     private let environment: Environment

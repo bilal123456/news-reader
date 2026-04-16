@@ -6,9 +6,6 @@
 //
 
 
-//  ArticleCacheService.swift
-//  News Reader App
-
 import Foundation
 
 protocol CacheServiceProtocol {
@@ -71,10 +68,13 @@ final class ArticleCacheService: CacheServiceProtocol {
     }
 
     // MARK: - Expiry Check
-    var isCacheExpired: () -> Bool = { false }
-    // Override in init if you want expiry logic:
-    // private func isCacheExpired() -> Bool {
-    //     let timestamp = userDefaults.double(forKey: Keys.cacheTimestamp)
-    //     return Date().timeIntervalSince1970 - timestamp > cacheExpirySeconds
-    // }
+    
+    private func isCacheExpired() -> Bool {
+        let timestamp = userDefaults.double(forKey: Keys.cacheTimestamp)
+        
+        if timestamp == 0 { return true }
+        
+        let currentTime = Date().timeIntervalSince1970
+        return (currentTime - timestamp) > cacheExpirySeconds
+    }
 }

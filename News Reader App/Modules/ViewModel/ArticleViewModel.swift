@@ -66,7 +66,7 @@ final class ArticleViewModel {
             filteredArticles = articles.filter {
                 $0.title.lowercased().contains(query.lowercased()) ||
                 $0.abstract.lowercased().contains(query.lowercased()) ||
-                ($0.byline?.lowercased().contains(query.lowercased()) == true) 
+                ($0.byline?.lowercased().contains(query.lowercased()) == true)
             }
         }
 

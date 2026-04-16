@@ -48,6 +48,8 @@ class ArticleDetailViewModel {
     // MARK: - UI Bindings
 
     var titleText: String { title }
+    
+    var url : String { article?.url ?? ""}
 
     var publisherText: String { byline }
 

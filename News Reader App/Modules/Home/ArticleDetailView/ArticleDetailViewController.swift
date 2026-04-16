@@ -50,6 +50,26 @@ class ArticleDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func shareBtnPressed(_ sender: Any) {
+        let  urlString = viewModel.url
+           
+           let title = viewModel.titleText ?? ""
+        
+        let url = URL(string: urlString)
+           
+           let items: [Any] = [title, url]
+           
+           let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+           
+           // iPad fix
+           if let popover = activityVC.popoverPresentationController {
+               popover.sourceView = self.view
+               popover.sourceRect = CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 0, height: 0)
+               popover.permittedArrowDirections = []
+           }
+           
+           present(activityVC, animated: true)
+    }
     @IBAction func bookmarkBtn(_ sender: UIButton) {
         let isSaved = viewModel.toggleBookmark()
 
@@ -63,7 +83,7 @@ class ArticleDetailViewController: UIViewController {
     // MARK: - Bookmark UI
         private func updateBookmarkUI() {
             let isSaved = viewModel.isBookmarked()
-            let imageName = isSaved ? "bookmark.circle.fill" : "bookmark.circle"
+            let imageName = isSaved ? "bookmark.fill" : "bookmark"
             bookmarkBtn.setImage(UIImage(systemName: imageName), for: .normal)
         }
 

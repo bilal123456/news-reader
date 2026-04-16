@@ -15,16 +15,14 @@ protocol CacheServiceProtocol {
 }
 
 final class ArticleCacheService: CacheServiceProtocol {
-
     // MARK: - Constants
     private enum Keys {
         static let cachedArticles = "cached_articles"
         static let cacheTimestamp = "cache_timestamp"
     }
-
     private let cacheExpirySeconds: TimeInterval
     private let userDefaults: UserDefaults
-
+    
     // MARK: - Init
     init(
         userDefaults: UserDefaults = .standard,
@@ -33,7 +31,7 @@ final class ArticleCacheService: CacheServiceProtocol {
         self.userDefaults = userDefaults
         self.cacheExpirySeconds = cacheExpirySeconds
     }
-
+    
     // MARK: - Save
     func saveArticles(_ articles: [Article]) {
         do {
@@ -44,12 +42,11 @@ final class ArticleCacheService: CacheServiceProtocol {
             print("Cache save error: \(error.localizedDescription)")
         }
     }
-
+    
     // MARK: - Load
     func loadArticles() -> [Article]? {
-        // Optional: check expiry
         if isCacheExpired() { return nil }
-
+        
         guard let data = userDefaults.data(forKey: Keys.cachedArticles) else {
             return nil
         }
@@ -60,20 +57,18 @@ final class ArticleCacheService: CacheServiceProtocol {
             return nil
         }
     }
-
+    
     // MARK: - Clear
     func clearCache() {
         userDefaults.removeObject(forKey: Keys.cachedArticles)
         userDefaults.removeObject(forKey: Keys.cacheTimestamp)
     }
-
+    
     // MARK: - Expiry Check
     
     private func isCacheExpired() -> Bool {
         let timestamp = userDefaults.double(forKey: Keys.cacheTimestamp)
-        
         if timestamp == 0 { return true }
-        
         let currentTime = Date().timeIntervalSince1970
         return (currentTime - timestamp) > cacheExpirySeconds
     }

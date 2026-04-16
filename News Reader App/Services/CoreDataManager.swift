@@ -68,8 +68,7 @@ class CoreDataManager {
             print("Delete error:", error)
         }
     }
-    
-    // MARK: - Check Exists
+    // MARK: - isBookmark
     func isBookmarked(id: Int) -> Bool {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookmarkArticle")
         request.predicate = NSPredicate(format: "id == %@", NSNumber(value: id))
@@ -81,7 +80,6 @@ class CoreDataManager {
             return false
         }
     }
-    
     // MARK: - Save Context
     private func saveContext() {
         do {

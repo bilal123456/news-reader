@@ -6,9 +6,6 @@
 //
 
 
-//  ArticleRepository.swift
-//  News Reader App
-
 import Foundation
 
 protocol ArticleRepositoryProtocol {
@@ -34,7 +31,6 @@ final class ArticleRepository : ArticleRepositoryProtocol {
     func fetchArticles(completion: @escaping (Result<[Article], Error>) -> Void) {
 
         guard let url = ArticleEndpoint.mostViewed(days: 7).url(environment: environment) else {
-            // No URL → try cache immediately
             if let cached = cache.loadArticles(), !cached.isEmpty {
                 completion(.success(cached))
             } else {

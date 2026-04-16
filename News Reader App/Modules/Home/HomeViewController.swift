@@ -14,21 +14,15 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var viewModel: ArticleViewModel!
     
-    
-    
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         searchbar.delegate = self
         tableView.showsVerticalScrollIndicator = false
-        
         setupViewModel()
         bindViewModel()
         tableView.restore()
         viewModel.loadArticles()
         hideKeyboardWhenTappedAround()
-        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(networkChanged),
@@ -41,41 +35,31 @@ class HomeViewController: UIViewController {
             name: .bookmarkUpdated,
             object: nil
         )
-    }
-    
-    
+    }    
     @objc func networkChanged() {
         if NetworkMonitor.shared.isConnected {
             tableView.restore()
-            viewModel.loadArticles()      // Fresh data fetch karo
+            viewModel.loadArticles()
         } else {
-            viewModel.loadArticles()      // ✅ Cache se load karne ki koshish karo
+            viewModel.loadArticles()
         }
     }
-    
     func setupViewModel() {
         let api = APIService()
         let repo = ArticleRepository(api: api)
         self.viewModel = ArticleViewModel(repository: repo)
     }
-    
-    
     func bindViewModel() {
-
         viewModel.onStateChange = { [weak self] state in
             guard let self else { return }
-
             self.activityView.isHidden = true
-
             switch state {
-
             case .loading:
                 self.activityView.isHidden = false
-
+                
             case .success:
                 self.tableView.restore()  // ✅ Yeh ensure karta hai empty view remove ho
                 self.tableView.reloadData()
-
             case .empty:
                 self.tableView.reloadData()  // ✅ Pehle reload karo (0 rows)
                 self.tableView.setEmptyView( // Phir empty view set karo
@@ -83,7 +67,6 @@ class HomeViewController: UIViewController {
                     message: "No articles found for \"\(self.searchbar.text ?? "")\"",
                     image: UIImage(systemName: "magnifyingglass")
                 )
-
             case .error(let message):
                 self.showOfflineBanner(false)
                 self.tableView.setEmptyView(
@@ -94,7 +77,6 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    
     private func showOfflineBanner(_ show: Bool) {
         if show {
             searchbar.placeholder = "⚠️ Offline – showing cached articles"
@@ -103,7 +85,7 @@ class HomeViewController: UIViewController {
         }
     }
     deinit {
-            NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -117,21 +99,14 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
         cell.configure(article: viewModel.article(at: indexPath.row))
         return cell
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let articleDetail: ArticleDetailViewController = ArticleDetailViewController.instantiate(appStoryboard: .main)
         articleDetail.viewModel = ArticleDetailViewModel(article: viewModel.article(at: indexPath.row))
-        articleDetail.delage = self
         self.navigationController?.pushViewController(articleDetail,animated:true)
     }
-    
-   
-    
-    
 }
 extension HomeViewController: UISearchBarDelegate {
     
@@ -143,11 +118,7 @@ extension HomeViewController: UISearchBarDelegate {
     }
 }
 
-extension HomeViewController : ArticleDetailDelegate {
-    func didUpdateBookmark() {
-        tableView.reloadData()
-    }
-    
+extension HomeViewController {
     @objc func refreshBookmarks() {
         tableView.reloadData()
     }

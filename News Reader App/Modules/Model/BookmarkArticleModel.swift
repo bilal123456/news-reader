@@ -16,7 +16,25 @@ struct BookmarkArticleModel {
 }
 
 extension BookmarkArticleModel {
+    
+    
     func toArticle() -> Article {
+        
+        let mediaMeta = MediaMeta(
+                   url: imageURL,
+                   format: nil,
+                   height: nil,
+                   width: nil
+               )
+
+               let media = Media(
+                   type: nil,
+                   subtype: nil,
+                   caption: nil,
+                   copyright: nil,
+                   mediaMetadata: [mediaMeta]
+               )
+
         return Article(
             uri: "",
             url: "",
@@ -36,7 +54,7 @@ extension BookmarkArticleModel {
             orgFacet: nil,
             perFacet: nil,
             geoFacet: nil,
-            media: nil
+            media: [media],
         )
     }
 }

@@ -18,31 +18,21 @@ class BookmarkTableViewCell: UITableViewCell {
     @IBOutlet weak var artile_publised_date: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configure(article: BookmarkArticleModel, tag: Int) {
         bookmarkBtn.tag = tag
-
         containerView.applyCardStyle()
-
         img.setImage(urlString: article.imageURL)
-
         title.text = article.title
         article_publisher.text = article.byline
-
         artile_publised_date.attributedText = .calendarText(date: article.publishedDate)
-
         img.layer.cornerRadius = 12
         img.clipsToBounds = true
-
         selectionStyle = .none
     }
 }

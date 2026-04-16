@@ -24,40 +24,38 @@ extension NWInterface.InterfaceType: @retroactive CaseIterable {
 
 final class NetworkMonitor {
     static let shared = NetworkMonitor()
-
+    
     private let queue = DispatchQueue(label: "NetworkConnectivityMonitor")
     private let monitor: NWPathMonitor
-
+    
     private(set) var isConnected = false
     private(set) var isExpensive = false
     private(set) var currentConnectionType: NWInterface.InterfaceType?
-
+    
     private init() {
         monitor = NWPathMonitor()
     }
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
             guard let self = self else { return }
-
+            
             DispatchQueue.main.async {
                 self.isConnected = (path.status == .satisfied)
                 self.isExpensive = path.isExpensive
-
+                
                 self.currentConnectionType = NWInterface.InterfaceType.allCases.first {
                     path.usesInterfaceType($0)
                 }
-
+                
                 NotificationCenter.default.post(name: .connectivityStatus, object: nil)
             }
         }
-
+        
         monitor.start(queue: queue)
-
-        // 🔥 IMPORTANT: initial state sync
         let initialPath = monitor.currentPath
         isConnected = initialPath.status == .satisfied
     }
-
+    
     func stopMonitoring() {
         monitor.cancel()
     }

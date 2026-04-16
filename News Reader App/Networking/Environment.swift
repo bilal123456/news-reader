@@ -12,7 +12,7 @@ enum Environment {
     case development
     case staging
     case production
-
+    
     var baseURL: String {
         switch self {
         case .development:
@@ -23,7 +23,7 @@ enum Environment {
             return "https://api.nytimes.com"
         }
     }
-
+    
     var apiKey: String {
         switch self {
         case .development:
@@ -35,10 +35,8 @@ enum Environment {
         }
     }
 }
-
 enum ArticleEndpoint {
     case mostViewed(days: Int)
-
     func url(environment: Environment) -> URL? {
         switch self {
         case .mostViewed(let days):

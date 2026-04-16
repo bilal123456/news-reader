@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Article: Decodable {
+struct Article: Codable {
     let uri: String
     let url: String
     let id: Int
@@ -51,7 +51,7 @@ struct Article: Decodable {
     }
 }
 
-struct Media: Decodable {
+struct Media: Codable {
     let type: String?
     let subtype: String?
     let caption: String?
@@ -67,7 +67,7 @@ struct Media: Decodable {
     }
 }
 
-struct MediaMeta: Decodable {
+struct MediaMeta: Codable {
     let url: String
     let format: String?
     let height: Int?

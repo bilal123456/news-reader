@@ -15,6 +15,7 @@ final class ArticleViewModel {
 
     private(set) var articles: [Article] = []
     private(set) var filteredArticles: [Article] = []
+    private(set) var isFromCache: Bool = false        // ← NEW
 
     var isSearching: Bool = false
 
@@ -33,7 +34,6 @@ final class ArticleViewModel {
     }
 
     func loadArticles() {
-
         state = .loading
 
         repository.fetchArticles { [weak self] result in
@@ -45,6 +45,9 @@ final class ArticleViewModel {
                 self.articles = articles
                 self.filteredArticles = articles
 
+                // Check if data is fresh or cached
+                // We pass a special ViewState or use the flag
+                self.isFromCache = !NetworkMonitor.shared.isConnected  // ← simple heuristic
                 self.state = articles.isEmpty ? .empty : .success
 
             case .failure(let error):
@@ -55,7 +58,6 @@ final class ArticleViewModel {
 
     // MARK: - Search
     func search(query: String) {
-
         if query.isEmpty {
             isSearching = false
             filteredArticles = articles
@@ -63,18 +65,19 @@ final class ArticleViewModel {
             isSearching = true
             filteredArticles = articles.filter {
                 $0.title.lowercased().contains(query.lowercased()) ||
-                $0.abstract.lowercased().contains(query.lowercased())
+                $0.abstract.lowercased().contains(query.lowercased()) ||
+                ($0.byline?.lowercased().contains(query.lowercased()) == true) 
             }
         }
 
-        state = (filteredArticles.count == 0) ? .empty : .success
+        
+        if filteredArticles.isEmpty {
+            state = .empty
+        } else {
+            state = .success
+        }
     }
 
-    func numberOfRows() -> Int {
-        filteredArticles.count
-    }
-
-    func article(at index: Int) -> Article {
-        filteredArticles[index]
-    }
+    func numberOfRows() -> Int { filteredArticles.count }
+    func article(at index: Int) -> Article { filteredArticles[index] }
 }

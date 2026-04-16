@@ -39,14 +39,9 @@ class HomeViewController: UIViewController {
     @objc func networkChanged() {
         if NetworkMonitor.shared.isConnected {
             tableView.restore()
-            viewModel.loadArticles()
+            viewModel.loadArticles()      // Fresh data fetch karo
         } else {
-            self.activityView.isHidden = true
-            tableView.setEmptyView(
-                title: "Network Error",
-                message: "Network Not working Properly",
-                image: UIImage(systemName: "wifi")
-            )
+            viewModel.loadArticles()      // ✅ Cache se load karne ki koshish karo
         }
     }
     
@@ -70,23 +65,33 @@ class HomeViewController: UIViewController {
                 self.activityView.isHidden = false
 
             case .success:
-                self.tableView.restore()
+                self.tableView.restore()  // ✅ Yeh ensure karta hai empty view remove ho
                 self.tableView.reloadData()
 
             case .empty:
-                self.tableView.setEmptyView(
-                    title: "No Data",
-                    message: "No articles found.",
-                    image: UIImage(systemName: "tray")
+                self.tableView.reloadData()  // ✅ Pehle reload karo (0 rows)
+                self.tableView.setEmptyView( // Phir empty view set karo
+                    title: "No Results",
+                    message: "No articles found for \"\(self.searchbar.text ?? "")\"",
+                    image: UIImage(systemName: "magnifyingglass")
                 )
 
             case .error(let message):
+                self.showOfflineBanner(false)
                 self.tableView.setEmptyView(
                     title: "Error",
                     message: message,
                     image: UIImage(systemName: "exclamationmark.triangle")
                 )
             }
+        }
+    }
+    
+    private func showOfflineBanner(_ show: Bool) {
+        if show {
+            searchbar.placeholder = "⚠️ Offline – showing cached articles"
+        } else {
+            searchbar.placeholder = "Search articles..."
         }
     }
     

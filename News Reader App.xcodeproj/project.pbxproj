@@ -6,11 +6,40 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5C6BAAAF2F8E9EC6000E7C9A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5C6BAAAE2F8E9EC6000E7C9A /* Kingfisher */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5C80D6962F90C83A00163271 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CF01A042F8E6A4800F90963 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CF01A0B2F8E6A4800F90963;
+			remoteInfo = "News Reader App";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		5C80D6922F90C83A00163271 /* News Reader AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "News Reader AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF01A0C2F8E6A4800F90963 /* News Reader App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "News Reader App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5C80D69C2F90C88C00163271 /* Exceptions for "News Reader App" folder in "News Reader AppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Modules/Model/Article.swift,
+				Modules/Model/ArticleRepository.swift,
+				Modules/Model/NewsModel.swift,
+				Modules/ViewModel/ArticleViewModel.swift,
+				Networking/APIService.swift,
+				Networking/Environment.swift,
+				Services/CacheServiceProtocol.swift,
+				Services/NetworkConnectivityManager.swift,
+			);
+			target = 5C80D6912F90C83A00163271 /* News Reader AppTests */;
+		};
 		5CF01A1E2F8E6A4A00F90963 /* Exceptions for "News Reader App" folder in "News Reader App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -21,10 +50,16 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		5C80D6932F90C83A00163271 /* News Reader AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "News Reader AppTests";
+			sourceTree = "<group>";
+		};
 		5CF01A0E2F8E6A4800F90963 /* News Reader App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				5CF01A1E2F8E6A4A00F90963 /* Exceptions for "News Reader App" folder in "News Reader App" target */,
+				5C80D69C2F90C88C00163271 /* Exceptions for "News Reader App" folder in "News Reader AppTests" target */,
 			);
 			path = "News Reader App";
 			sourceTree = "<group>";
@@ -32,10 +67,18 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5C80D68F2F90C83A00163271 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5CF01A092F8E6A4800F90963 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C6BAAAF2F8E9EC6000E7C9A /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				5CF01A0E2F8E6A4800F90963 /* News Reader App */,
+				5C80D6932F90C83A00163271 /* News Reader AppTests */,
 				5CF01A0D2F8E6A4800F90963 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				5CF01A0C2F8E6A4800F90963 /* News Reader App.app */,
+				5C80D6922F90C83A00163271 /* News Reader AppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +106,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5C80D6912F90C83A00163271 /* News Reader AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C80D6982F90C83A00163271 /* Build configuration list for PBXNativeTarget "News Reader AppTests" */;
+			buildPhases = (
+				5C80D68E2F90C83A00163271 /* Sources */,
+				5C80D68F2F90C83A00163271 /* Frameworks */,
+				5C80D6902F90C83A00163271 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C80D6972F90C83A00163271 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				5C80D6932F90C83A00163271 /* News Reader AppTests */,
+			);
+			name = "News Reader AppTests";
+			packageProductDependencies = (
+			);
+			productName = "News Reader AppTests";
+			productReference = 5C80D6922F90C83A00163271 /* News Reader AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		5CF01A0B2F8E6A4800F90963 /* News Reader App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CF01A1F2F8E6A4A00F90963 /* Build configuration list for PBXNativeTarget "News Reader App" */;
@@ -78,6 +146,7 @@
 			);
 			name = "News Reader App";
 			packageProductDependencies = (
+				5C6BAAAE2F8E9EC6000E7C9A /* Kingfisher */,
 			);
 			productName = "News Reader App";
 			productReference = 5CF01A0C2F8E6A4800F90963 /* News Reader App.app */;
@@ -93,6 +162,10 @@
 				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					5C80D6912F90C83A00163271 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = 5CF01A0B2F8E6A4800F90963;
+					};
 					5CF01A0B2F8E6A4800F90963 = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -107,17 +180,28 @@
 			);
 			mainGroup = 5CF01A032F8E6A4800F90963;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5C6BAAAD2F8E9EC5000E7C9A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5CF01A0D2F8E6A4800F90963 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				5CF01A0B2F8E6A4800F90963 /* News Reader App */,
+				5C80D6912F90C83A00163271 /* News Reader AppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5C80D6902F90C83A00163271 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5CF01A0A2F8E6A4800F90963 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +212,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5C80D68E2F90C83A00163271 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5CF01A082F8E6A4800F90963 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +228,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5C80D6972F90C83A00163271 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CF01A0B2F8E6A4800F90963 /* News Reader App */;
+			targetProxy = 5C80D6962F90C83A00163271 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		5C80D6992F90C83A00163271 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3B5UGS9ASG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Apple.News-Reader-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/News Reader App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/News Reader App";
+			};
+			name = Debug;
+		};
+		5C80D69A2F90C83A00163271 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3B5UGS9ASG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Apple.News-Reader-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/News Reader App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/News Reader App";
+			};
+			name = Release;
+		};
 		5CF01A202F8E6A4A00F90963 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -148,25 +289,30 @@
 				DEVELOPMENT_TEAM = 3B5UGS9ASG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "News Reader App/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "News Reader";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Apple.News-Reader-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "Apple.News-Reader-Apps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -180,25 +326,30 @@
 				DEVELOPMENT_TEAM = 3B5UGS9ASG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "News Reader App/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "News Reader";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Apple.News-Reader-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "Apple.News-Reader-Apps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -326,6 +477,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5C80D6982F90C83A00163271 /* Build configuration list for PBXNativeTarget "News Reader AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C80D6992F90C83A00163271 /* Debug */,
+				5C80D69A2F90C83A00163271 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5CF01A072F8E6A4800F90963 /* Build configuration list for PBXProject "News Reader App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -345,6 +505,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5C6BAAAD2F8E9EC5000E7C9A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5C6BAAAE2F8E9EC6000E7C9A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C6BAAAD2F8E9EC5000E7C9A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5CF01A042F8E6A4800F90963 /* Project object */;
 }
